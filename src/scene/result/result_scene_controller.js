@@ -17,6 +17,10 @@ export default class ResultSceneController extends Phaser.Scene {
         // this.newStart();
     }
 
+    update(time, delta){
+        this.view.update(time, delta);
+    }
+
     // Game over function
     newStart() {
       // restart the game

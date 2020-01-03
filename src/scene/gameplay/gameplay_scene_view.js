@@ -1,4 +1,5 @@
-import { VirtualJoystick } from "../../VirtualJoystick";
+// import { VirtualJoystick } from "../../VirtualJoystick";
+import { PhaserUIComponent } from "../../components/PhaserUIComponent";
 
 let cursors;
 let player;
@@ -25,6 +26,9 @@ export default class GameplaySceneView{
     this.treasure = this.scene.add.sprite(800, 400, 'treasure');
     this.treasure.setScale(0.3);
 
+    this.fake_treasure = this.scene.add.sprite(120, 1100, 'treasure');
+    this.fake_treasure.setScale(0.3);
+
     worldLayer.setCollisionByProperty({ collides: true });
 
     aboveLayer.setDepth(10);
@@ -38,16 +42,28 @@ export default class GameplaySceneView{
 
     this.scene.physics.add.collider(player, worldLayer);
 
-    // this.joystick = new VirtualJoystick(this.scene, 150, 500, {
-    //   texture: "VControl",
-    //   container: "VBControl",
-    //   controlled: player
-    // });
-    // this.joystick.setScrollFactor(0);
+    const joystickConfig = {
+      type: 'Joystick',
+      spritesheetTexture: 'vj',
+      controlled: this.fake_treasure
+    };
 
-    // this.pad = this.scene.game.plugins.add(Phaser.VirtualJoystick);
-    // this.stick = this.pad.addDPad(0, 0, 200, 'dpad');
+    const joystick = PhaserUIComponent.create.VirtualControl(this.scene, 90, 1132, joystickConfig);
+    // joystick.setScrollFactor(0)
 
+    const arowConfig = {
+    };
+    const dpadConfig = {
+      type: 'DPAD',
+      spritesheetTexture: 'btn_arrow',
+      arrowConfig: arowConfig,
+      width: 72,
+      height: 72,
+      controlled: this.fake_treasure
+    };
+    const dpad = PhaserUIComponent.create.VirtualControl(this.scene, 650, 1232, dpadConfig);
+    dpad.setScrollFactor(0);
+    
     this.up = this.scene.add.sprite(200, 450, 'up').setInteractive();
     this.up.setOrigin(0.5);
     this.up.setDepth(15);
